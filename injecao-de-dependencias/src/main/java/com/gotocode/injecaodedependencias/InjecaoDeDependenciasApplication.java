@@ -1,27 +1,31 @@
 package com.gotocode.injecaodedependencias;
 
-//import org.springframework.boot.SpringApplication;
-//import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 
+@SpringBootApplication
 public class InjecaoDeDependenciasApplication {
-
-
 	public static void main(String[] args) {
-		//SpringApplication.run(InjecaoDeDependenciasApplication.class, args);
-		// Usando Inversão de controle IoC
-		// Se for trocar o FileReader para um DbReader, muda apenas em quem chama
-		// o resto do código continua funcionando sem alteracão.
-		new MigracaoUsuario(
-				new FileReader(),
-				new DbWriter()
-		).migrar();
+		SpringApplication.run(InjecaoDeDependenciasApplication.class, args);
+	}
+
+	//Usando os beans do Spring
+	@Bean
+	ApplicationRunner runner(MigracaoUsuario migracaoUsuario) {
+		return args -> {
+			migracaoUsuario.migrar();
+		};
 	}
 
 }
 
+@Component
 class MigracaoUsuario {
 	// MigracaoUsuario depende do FileReader e do FileWriter
 	// Depende dos detalhes da implementacão (Auto acoplamento)
@@ -34,6 +38,9 @@ class MigracaoUsuario {
 	Writer<User> writer;
 
 	// Criar um construtor
+	//Quando tem uma classe que é um bean spring como @Component
+	//Uma classe que tem o construtor que recebe parâmetros esse parâmetros
+	//serão altomáticamente injetar
 	public MigracaoUsuario(Reader<User> reader, Writer<User> writer) {
 		// Fica desacoplado
 		this.reader = reader;
@@ -66,6 +73,7 @@ interface Writer<T> {
 	void write(List<T> itens);
 }
 
+@Component
 class FileReader implements Reader<User>{
 	public List<User> read() {
 		// Foco em trabalhar com dependências de software
@@ -74,6 +82,7 @@ class FileReader implements Reader<User>{
 	}
 }
 
+@Component
 class DbWriter implements Writer<User> {
 	public void write(List<User> users) {
 		System.out.println("Escrevendo usuários no banco...");
