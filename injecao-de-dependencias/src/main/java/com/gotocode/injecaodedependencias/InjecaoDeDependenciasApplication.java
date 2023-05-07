@@ -11,19 +11,34 @@ public class InjecaoDeDependenciasApplication {
 
 	public static void main(String[] args) {
 		//SpringApplication.run(InjecaoDeDependenciasApplication.class, args);
-		new MigracaoUsuario().migrar();
+		// Usando Inversão de controle IoC
+		// Se for trocar o FileReader para um DbReader, muda apenas em quem chama
+		// o resto do código continua funcionando sem alteracão.
+		new MigracaoUsuario(
+				new FileReader(),
+				new DbWriter()
+		).migrar();
 	}
 
 }
 
 class MigracaoUsuario {
 	// MigracaoUsuario depende do FileReader e do FileWriter
-	// Depende dos detalhes da implementacao (Auto acoplamento)
+	// Depende dos detalhes da implementacão (Auto acoplamento)
 	// resolvendo com uso de abstracoes com uso de interface
 
 	// As dependência está liga agora pela interface e não pela implementacões
-	Reader<User> reader = new FileReader();
-	Writer<User> writer = new DbWriter();
+	// Problema ainda sabe detalhes das operacões de leitua e escrita
+	// Resolvendo usando a inversão de controle IoC
+	Reader<User> reader;
+	Writer<User> writer;
+
+	// Criar um construtor
+	public MigracaoUsuario(Reader<User> reader, Writer<User> writer) {
+		// Fica desacoplado
+		this.reader = reader;
+		this.writer = writer;
+	}
 
 	void migrar() {
 		// Criar o leitor e o escritor, criar os dois conceitos e
