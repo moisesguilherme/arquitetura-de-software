@@ -19,9 +19,10 @@ public class InjecaoDeDependenciasApplication {
 class MigracaoUsuario {
 	// MigracaoUsuario depende do FileReader e do FileWriter
 	// Depende dos detalhes da implementacao (Auto acoplamento)
-	// resolvendo com uso de abstracoes
-	FileReader reader = new FileReader();
-	DbWriter writer = new DbWriter();
+	// resolvendo com uso de abstracoes com uso de interface
+
+	Reader reader = new FileReader();
+	Writer writer = new DbWriter();
 
 	void migrar() {
 		// Criar o leitor e o escritor, criar os dois conceitos e
@@ -37,16 +38,27 @@ record User(String email, String username, String password) {
 
 }
 
-class FileReader {
-	List<User> read() {
+interface Reader {
+	//Tirar a dependência de User
+	//List<User> read();
+	List<User> read();
+
+}
+
+interface Writer {
+	void write(List<User> users);
+}
+
+class FileReader implements Reader{
+	public List<User> read() {
 		// Foco em trabalhar com dependências de software
 		System.out.println("Lendo usuários do arquivo...");
 		return List.of(new User("email", "username", "password"));
 	}
 }
 
-class DbWriter {
-	void write(List<User> users) {
+class DbWriter implements Writer {
+	public void write(List<User> users) {
 		System.out.println("Escrevendo usuários no banco...");
 		System.out.println(users);
 	}
