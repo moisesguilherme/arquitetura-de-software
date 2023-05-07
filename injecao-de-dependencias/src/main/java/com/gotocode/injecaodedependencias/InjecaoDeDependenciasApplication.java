@@ -21,8 +21,9 @@ class MigracaoUsuario {
 	// Depende dos detalhes da implementacao (Auto acoplamento)
 	// resolvendo com uso de abstracoes com uso de interface
 
-	Reader reader = new FileReader();
-	Writer writer = new DbWriter();
+	// As dependência está liga agora pela interface e não pela implementacões
+	Reader<User> reader = new FileReader();
+	Writer<User> writer = new DbWriter();
 
 	void migrar() {
 		// Criar o leitor e o escritor, criar os dois conceitos e
@@ -38,18 +39,19 @@ record User(String email, String username, String password) {
 
 }
 
-interface Reader {
+interface Reader<T> {
 	//Tirar a dependência de User
 	//List<User> read();
-	List<User> read();
+	//Usando generics
+	List<T> read();
 
 }
 
-interface Writer {
-	void write(List<User> users);
+interface Writer<T> {
+	void write(List<T> itens);
 }
 
-class FileReader implements Reader{
+class FileReader implements Reader<User>{
 	public List<User> read() {
 		// Foco em trabalhar com dependências de software
 		System.out.println("Lendo usuários do arquivo...");
@@ -57,7 +59,7 @@ class FileReader implements Reader{
 	}
 }
 
-class DbWriter implements Writer {
+class DbWriter implements Writer<User> {
 	public void write(List<User> users) {
 		System.out.println("Escrevendo usuários no banco...");
 		System.out.println(users);
