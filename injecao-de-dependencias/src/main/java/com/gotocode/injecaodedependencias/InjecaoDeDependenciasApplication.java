@@ -31,7 +31,7 @@ class MigracaoUsuario {
 	// Depende dos detalhes da implementacão (Auto acoplamento)
 	// resolvendo com uso de abstracoes com uso de interface
 
-	// As dependência está liga agora pela interface e não pela implementacões
+	// As dependência está ligada agora pela interface e não pela implementacões
 	// Problema ainda sabe detalhes das operacões de leitua e escrita
 	// Resolvendo usando a inversão de controle IoC
 	Reader<User> reader;
