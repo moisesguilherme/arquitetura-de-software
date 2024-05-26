@@ -1,4 +1,4 @@
-package com.gotocode.injecaodedependencias.exercicio;
+package com.gotocode.injecaodedependencias.exercicioCarro;
 
 public class Eletrico implements IEletrico {
 

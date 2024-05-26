@@ -1,4 +1,4 @@
-package com.gotocode.injecaodedependencias.exercicio;
+package com.gotocode.injecaodedependencias.exercicioCarro;
 
 public interface IEletrico {
     public String getTipoVoltagem();

@@ -1,6 +1,6 @@
 package com.gotocode.injecaodedependencias;
 
-import com.gotocode.injecaodedependencias.exercicio.*;
+import com.gotocode.injecaodedependencias.exercicioCarro.*;
 
 public class ExecutaExercicio {
     // Criar um objeto veículo que pode ser moto ou carro,

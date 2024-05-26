@@ -1,4 +1,4 @@
-package com.gotocode.injecaodedependencias.exercicio;
+package com.gotocode.injecaodedependencias.exercicioCarro;
 
 // Veículo depende de motor e de combustível um alto acoplamento
 // a injeção de Dependência é apenas uma forma para resolvermos a Inversão de Controle.
